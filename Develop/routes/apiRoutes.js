@@ -1,53 +1,32 @@
-const router = require('express').Router();
+const router = require("express").Router();
 const util = require("util");
-const fs = require("fs");
-const readFileAsync = util.promisify(fs.readFile);
-const writeFileAsync = util.promisify(fs.writeFile);
+const dbStore = require("../db/store");
 
-let read = () => {
-    return readFileAsync("./db/db.json", "utf8")
-}
-
-let writeNote = (note) => {
-    return writeFileAsync("./db/db.json", JSON.stringify(note))
-}
-
+// GET route
 router.get("/notes", (req, res) => {
-    read().then((notes) => {
-        let noteData;
-
-        //try catch if notes comes back as an error send an empty array
-        try {
-            noteData = [].concat(JSON.parse(notes))
-        }
-        catch (err){
-            noteData = []
-        }
-        return (noteData)
+  dbStore
+    .getAllNotes().then((notes) => {
+      return res.json(notes);
     })
     .catch((err)=>res.status(500).json(err))
 });
 
-router.post("/notes", (req, res) =>{
-
-    const {title, text} = req.body;
-    const newNote = {title, text};
-
-    let noteData = read().then((notes) => {
-        return res.json(notes)
-    })
-});
-
-router.delete("/notes", (req, res) =>{
-
-    const deleteNote = parseInt(req.params.id);
-    readFileAsync.then((notes) => notes.filter((note) => note.id != id))
-    .then((notes) => this.write(notes))
-    read().then((notes) => {
-        return res.json(notes)
+// POST route
+router.post("/notes", (req, res) => {
+  dbStore
+    .addToNotes(req.body).then((note) => {
+      res.json(note);
     })
     .catch((err)=>res.status(500).json(err))
 });
 
+// Delete note
+router.delete("/notes/:id", (req, res) => {
+    dbStore
+        .deleteTheNote(req.params.id).then((note) => {
+            res.json(note);
+        })
+        .catch((err)=>res.status(500).json(err))
+});
 
 module.exports = router;
