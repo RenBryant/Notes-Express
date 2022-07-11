@@ -8,20 +8,37 @@ let read = () => {
     return readFileAsync("./db/db.json", "utf8")
 }
 
+let writeNote = (note) => {
+    return writeFileAsync("./db/db.json", JSON.stringify(note))
+}
+
 router.get("/notes", (req, res) => {
 
     read().then((notes) => {
-        return res.json(notes)
+        let noteData;
+
+        //try catch if notes comes back as an error send an empty array
+
+        try {
+            noteData = [].concat(JSON.parse(notes))
+        }
+        catch (err){
+            noteData = []
+        }
+        return res.json(noteData)
     })
     .catch((err)=>res.status(500).json(err))
 });
 
 router.post("/notes", (req, res) =>{
 
-    read().then((notes) => {
+    const {title, text} = req.body
+    const newNote = {title, text}
+
+    let noteData = read().then((notes) => {
         return res.json(notes)
     })
-    .catch((err)=>res.statys(500).json(err))
+    console.log (noteData);
 });
 
 router.delete("/notes", (req, res) =>{
@@ -29,7 +46,7 @@ router.delete("/notes", (req, res) =>{
     read().then((notes) => {
         return res.json(notes)
     })
-    .catch((err)=>res.statys(500).json(err))
+    .catch((err)=>res.status(500).json(err))
 });
 
 
