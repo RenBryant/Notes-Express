@@ -34,7 +34,7 @@ THEN I am presented with empty fields to enter a new note title and the note’s
 [Note-Taker Application](https://renbryant.github.io/Notes-Express/)
 
 ### Link to Heroku Deployed
-[Heroku Note-Taker Application](https://dashboard.heroku.com/apps/noteries-express)
+[Heroku Note-Taker Application]https://noteries-express.herokuapp.com/)
 
 ## Contributors
 
