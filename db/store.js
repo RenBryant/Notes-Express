@@ -1,4 +1,4 @@
-// global variables
+// global variables required for this application
 const fs = require("fs");
 const util = require("util");
 const uuid = require("../helpers/uuid");
@@ -6,7 +6,7 @@ const uuid = require("../helpers/uuid");
 const readFileAsync = util.promisify(fs.readFile);
 const writeFileAsync = util.promisify(fs.writeFile);
 
-// class to handle notes, creates functions to read, write, get, and add notes
+// This is the class that will handle the read, write, get, add, and delete functionality.
 class dbStore {
   read() {
     return readFileAsync("db/db.json", "utf-8");
