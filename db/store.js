@@ -30,7 +30,7 @@ class dbStore {
 
   addToNotes(note) {
     const {title, text} = note;
-    const newNotes = {title, text, id: uuid(),};
+    const newNotes = {title, text, id: uuid()};
 
     return this.getAllNotes()
       .then((notes) => [...notes, newNotes])
