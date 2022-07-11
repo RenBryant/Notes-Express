@@ -13,36 +13,36 @@ let writeNote = (note) => {
 }
 
 router.get("/notes", (req, res) => {
-
     read().then((notes) => {
         let noteData;
 
         //try catch if notes comes back as an error send an empty array
-
         try {
             noteData = [].concat(JSON.parse(notes))
         }
         catch (err){
             noteData = []
         }
-        return res.json(noteData)
+        return (noteData)
     })
     .catch((err)=>res.status(500).json(err))
 });
 
 router.post("/notes", (req, res) =>{
 
-    const {title, text} = req.body
-    const newNote = {title, text}
+    const {title, text} = req.body;
+    const newNote = {title, text};
 
     let noteData = read().then((notes) => {
         return res.json(notes)
     })
-    console.log (noteData);
 });
 
 router.delete("/notes", (req, res) =>{
 
+    const deleteNote = parseInt(req.params.id);
+    readFileAsync.then((notes) => notes.filter((note) => note.id != id))
+    .then((notes) => this.write(notes))
     read().then((notes) => {
         return res.json(notes)
     })
